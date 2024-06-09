@@ -129,12 +129,11 @@ function App() {
       if (train.length % 4 === 0) {
         if (level < 13) {
           setLevel((prev) => prev + 1);
-          setDirection("right");
-          setTrain([
-            { x: 1, y: 0 },
-            { x: 0, y: 0 },
-          ]);
-        } else {
+          // setDirection("right");
+          // setTrain([
+          //   { x: 1, y: 0 },
+          //   { x: 0, y: 0 },
+          // ]);
           const newTrain = [...train];
           newTrain.push(newTrain[newTrain.length - 1]);
           setTrain(newTrain);

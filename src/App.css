@@ -2,6 +2,11 @@
   margin: 0;
 }
 
+body {
+  background: url("./assets/bg.png") center/cover no-repeat;
+  text-align: center;
+}
+
 .game {
   display: flex;
   flex-direction: column;
@@ -43,10 +48,10 @@ h1 {
 
 button {
   cursor: pointer;
-  border: 2px solid green;
+  border: 2px solid red;
   background: transparent;
   font-size: 18px;
-  color: green;
+  color: red;
   padding: 5px;
   border-radius: 5px;
 }

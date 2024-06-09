@@ -3,4 +3,5 @@
   width: 32px;
   position: absolute;
   background: url("../../assets/person.svg") center/contain no-repeat;
+  z-index: 10;
 }
