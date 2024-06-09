@@ -1,12 +1,13 @@
 .startBoard {
-  min-height: 320px;
+  --green: #00f260;
+  --blue: #0575e6;
   min-width: 320px;
-  background: url("./assets/bg.png") center/cover no-repeat;
+  min-height: 320px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  text-shadow: 2px 2px 2px red;
-  font-size: 18px;
+  background: linear-gradient(var(--green), var(--blue)) center / cover
+    no-repeat;
 }
