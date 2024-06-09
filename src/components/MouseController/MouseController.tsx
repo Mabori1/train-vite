@@ -2,21 +2,30 @@ import { FC } from "react";
 import "./MouseController.css";
 
 type TMouseControllerProps = {
+  lvl: number;
+  curSpeed: number;
   setDir: (data: string) => void;
   dir: string;
+  speedFn: (data: number) => void;
 };
 
-const MouseController: FC<TMouseControllerProps> = ({ dir, setDir }) => {
-  const setDirHandler = (data: string) => {
+export const MouseController: FC<TMouseControllerProps> = ({
+  lvl,
+  curSpeed,
+  dir,
+  setDir,
+  speedFn,
+}) => {
+  const setDirectionHandler = (data: string) => {
     switch (data) {
-      case "ArrowLeft":
-        if (dir !== "right") {
-          setDir("left");
-        }
-        break;
       case "ArrowRight":
         if (dir !== "left") {
           setDir("right");
+        }
+        break;
+      case "ArrowLeft":
+        if (dir !== "right") {
+          setDir("left");
         }
         break;
       case "ArrowUp":
@@ -29,23 +38,36 @@ const MouseController: FC<TMouseControllerProps> = ({ dir, setDir }) => {
           setDir("down");
         }
         break;
-
+      case "Pause":
+        speedFn(99999999999);
+        break;
+      case "Start":
+        speedFn(lvl === 1 ? 700 : 750 - lvl * 50);
+        break;
       default:
         break;
     }
   };
+
   return (
     <div className="controller">
       <div>
-        <button onClick={() => setDirHandler("ArrowLeft")}>left</button>
-        <button onClick={() => setDirHandler("ArrowRight")}>right</button>
+        <button onClick={() => setDirectionHandler("ArrowLeft")}>left</button>
+        <button onClick={() => setDirectionHandler("ArrowRight")}>right</button>
       </div>
       <div>
-        <button onClick={() => setDirHandler("ArrowUp")}>up</button>
-        <button onClick={() => setDirHandler("ArrowDown")}>down</button>
+        <button
+          onClick={() =>
+            setDirectionHandler(curSpeed > 999 ? "Start" : "Pause")
+          }
+        >
+          {curSpeed > 999 ? "Start" : "Pause"}
+        </button>
+      </div>
+      <div>
+        <button onClick={() => setDirectionHandler("ArrowUp")}>up</button>
+        <button onClick={() => setDirectionHandler("ArrowDown")}>down</button>
       </div>
     </div>
   );
 };
-
-export default MouseController;

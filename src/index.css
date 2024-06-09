@@ -21,10 +21,5 @@ body {
   min-height: 100vh;
   align-items: flex-start;
   justify-content: center;
-}
-
-.train {
-  width: 32px;
-  height: 32px;
-  background: #00ff00;
+  background: url("./assets/bg.png") center/cover no-repeat;
 }

@@ -3,7 +3,7 @@ import "./App.css";
 import Train from "./components/Train/Train";
 import { Passenger } from "./components/Passenger/Passenger";
 import { ITrain } from "./interfaces/ITrain";
-import MouseController from "./components/MouseController/MouseController";
+import { MouseController } from "./components/MouseController/MouseController";
 import GameOverBoard from "./components/GameOverBoard/GameOverBoard";
 import StartBoard from "./components/StartBoard/StartBoard";
 
@@ -25,6 +25,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(1);
   const [totalScore, setTotalScore] = useState(0);
+  const [speed, setSpeed] = useState(700);
 
   const isTrainCheck = (element: ITrain, index: number) => {
     const x = index % BOARD_LENGTH;
@@ -39,6 +40,7 @@ function App() {
     setGameOver(false);
     setDirection("right");
     setPassenger(getPassenger());
+    setSpeed(700);
     setTrain([
       { x: 1, y: 0 },
       { x: 0, y: 0 },
@@ -77,11 +79,17 @@ function App() {
           startGameHandler();
           break;
 
+        case "p":
+          setSpeed(99999999999);
+          break;
+        case "s":
+          setSpeed(level === 1 ? 700 : 750 - level * 50);
+          break;
         default:
           break;
       }
     },
-    [direction, startGameHandler],
+    [direction, level, startGameHandler],
   );
 
   const trainMoveHandler = useCallback(() => {
@@ -90,16 +98,16 @@ function App() {
 
     switch (direction) {
       case "left":
-        headTrain.x - 1 < 0 ? (headTrain.x = 9) : (headTrain.x -= 1);
+        headTrain.x - 1 < 0 ? setGameOver(true) : (headTrain.x -= 1);
         break;
       case "right":
-        headTrain.x + 1 > 9 ? (headTrain.x = 0) : (headTrain.x += 1);
+        headTrain.x + 1 > 9 ? setGameOver(true) : (headTrain.x += 1);
         break;
       case "up":
-        headTrain.y - 1 < 0 ? (headTrain.y = 9) : (headTrain.y -= 1);
+        headTrain.y - 1 < 0 ? setGameOver(true) : (headTrain.y -= 1);
         break;
       case "down":
-        headTrain.y + 1 > 9 ? (headTrain.y = 0) : (headTrain.y += 1);
+        headTrain.y + 1 > 9 ? setGameOver(true) : (headTrain.y += 1);
     }
 
     newTrain.unshift(headTrain);
@@ -110,9 +118,9 @@ function App() {
   }, [train, direction]);
 
   useEffect(() => {
-    const moveInterval = setInterval(trainMoveHandler, 700 - level * 50);
+    const moveInterval = setInterval(trainMoveHandler, speed);
     return () => clearInterval(moveInterval);
-  }, [trainMoveHandler, level]);
+  }, [trainMoveHandler, level, speed]);
 
   useEffect(() => {
     document.addEventListener("keydown", keyDownHandler);
@@ -129,6 +137,8 @@ function App() {
       if (train.length % 4 === 0) {
         if (level < 13) {
           setLevel((prev) => prev + 1);
+          setSpeed(() => 700 - level * 50);
+
           // setDirection("right");
           // setTrain([
           //   { x: 1, y: 0 },
@@ -191,7 +201,13 @@ function App() {
           </div>
         )}
       </div>
-      <MouseController dir={direction} setDir={setDirection} />
+      <MouseController
+        lvl={level}
+        curSpeed={speed}
+        speedFn={setSpeed}
+        dir={direction}
+        setDir={setDirection}
+      />
     </>
   );
 }
