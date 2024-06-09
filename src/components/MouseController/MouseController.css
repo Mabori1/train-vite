@@ -1,0 +1,17 @@
+.controller {
+  display: flex;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.controller > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.controller > div:nth-child(2) {
+  flex-direction: column;
+}
